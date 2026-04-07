@@ -1,0 +1,52 @@
+spring:
+    application:
+        name: ai_code_mother_app
+    datasource:
+      url: jdbc:mysql://localhost:3306/microserver_ai_code_mother?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+      username: root
+      password: lwn
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    profiles:
+      active: local
+server:
+  port: 8085
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+#          前端的cookie也要设置过期时间，不然的话不匹配，都算过期。
+        max-age: 2592000
+# springdoc-openapi
+springdoc:
+  group-configs:
+    - group: 'default'
+      packages-to-scan: com.yuaicodemother.controller
+# knife4j
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+#Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,beans
+  endpoint:
+    health:
+      show-details: always
+# Dubbo
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848
+    register-mode: instance
+  protocol:
+    name: tri
+    port: 50053
+  consumer:
+    timeout: 120000
+  provider:
+    timeout: 120000
+  application:
+    qos-enable: true
+    qos-port: 33333
